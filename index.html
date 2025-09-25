@@ -7,22 +7,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 body {
-  background: linear-gradient(135deg, #0044cc, #001a66);
-  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background: 
+    radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(135deg, #0044cc, #001a66);
+  background-size: 20px 20px, cover;
+  background-attachment: fixed;
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  height: 100vh; margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
 }
+
 h1 {
   margin-bottom: 20px;
   font-size: 1.5rem;
   color: #ffeb3b;
-  text-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
+  text-shadow: 0 0 12px rgba(255, 235, 59, 0.9);
   text-align: center;
 }
+
 .login-box {
   background: rgba(0, 0, 0, 0.6);
   padding: 20px;
@@ -30,11 +37,143 @@ h1 {
   box-shadow: 0 0 15px rgba(255, 235, 59, 0.6);
   text-align: center;
 }
+
 .password-wrapper {
   position: relative;
   display: inline-block;
 }
+
 input[type=password], input[type=text] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 220px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  /* bayangan ganda */
+  box-shadow: 
+    0 0 10px rgba(255, 235, 59, 0.6),
+    0 0 20px rgba(255, 235, 59, 0.3);
+}
+
+.toggle {
+  position: absolute;
+  right: 8px; top: 8px;
+  cursor: pointer;
+  color: #ffeb3b;
+  font-size: 14px;
+  text-shadow: 
+    0 0 4px rgba(255, 235, 59, 0.6),
+    0 0 8px rgba(255, 235, 59, 0.3);
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #ffeb3b;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 0 10px rgba(255, 235, 59, 0.6);
+  transition: all 0.2s ease-in-out;
+}
+button:hover {
+  background: #ffc107;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+}
+
+.overlay {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000;
+  animation: fadeIn .3s;
+}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.overlay-content {
+  background: #000; padding: 10px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 0 15px #ffeb3b;
+  animation: zoomIn 0.3s ease;
+}
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.overlay video { max-width: 90vw; max-height: 70vh; }
+
+.close-btn {
+  position: absolute; top: -10px; right: -10px;
+  background: #ffeb3b; border: none;
+  border-radius: 50%;
+  width: 30px; height: 30px;
+  color: black; cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(255, 235, 59, 0.6);
+}
+</style>
+</head>
+<body>
+<h1>Kenakalan Remaja</h1>
+<div class="login-box" id="loginBox">
+  <div class="password-wrapper">
+    <input type="password" id="password" placeholder="Masukkan Password">
+    <span class="toggle" onclick="togglePw()">👁️</span>
+  </div><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-content" id="overlayContent"></div>
+</div>
+
+<script>
+const allowedPasswords=['Bundashinta','Sastro1788'];
+const overlay=document.getElementById('overlay');
+const overlayContent=document.getElementById('overlayContent');
+let pwField=document.getElementById('password');
+
+function togglePw(){
+  pwField.type = (pwField.type === 'password') ? 'text' : 'password';
+}
+
+function login(){
+  const pw = pwField.value;
+  if(allowedPasswords.includes(pw)){
+    openPopup();
+  } else {
+    alert('Password salah!');
+    pwField.value = "";
+    pwField.focus();
+  }
+}
+
+function openPopup(){
+  overlayContent.innerHTML=`
+    <button class='close-btn' onclick='closePopup()'>X</button>
+    <video controls autoplay>
+      <source src='https://files.catbox.moe/evnnuy.mp4' type='video/mp4'>
+    </video>`;
+  overlay.style.display='flex';
+}
+
+function closePopup(){
+  overlay.style.display='none';
+  window.location.href='menu.html';
+}
+</script>
+</body>
+</html>input[type=password], input[type=text] {
   padding: 10px;
   border: none;
   border-radius: 5px;
